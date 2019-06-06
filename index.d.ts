@@ -36,8 +36,8 @@ export declare interface App {
   [namespace: string]: HandlerFunction;
 }
 
-export declare type Middleware = (req: Request, res: Response, next: Middleware | NextFunction) => void;
-export declare type ErrorHandlingMiddleware = (error: Error, req: Request, res: Response, next: ErrorHandlingMiddleware | NextFunction) => void;
+export declare type Middleware = (req: Request, res: Response, next: NextFunction) => void;
+export declare type ErrorHandlingMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => void;
 export declare type ErrorCallback = (error?: Error) => void;
 export declare type RoutingFunction = (api: API, opts?: object) => void;
 export declare type HandlerFunction = (req?: Request, res?: Response, next?: NextFunction) => void | {} | Promise<{}>;
