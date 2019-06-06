@@ -39,6 +39,7 @@ export declare interface App {
 export declare type Middleware = (req: Request, res: Response, next: Middleware) => void;
 export declare type ErrorHandlingMiddleware = (error: Error, req: Request, res: Response, next: ErrorHandlingMiddleware) => void;
 export declare type ErrorCallback = (error?: Error) => void;
+export declare type RoutingFunction = (api: API, opts?: object) => void;
 export declare type HandlerFunction = (req?: Request, res?: Response, next?: NextFunction) => void | {} | Promise<{}>;
 export declare type LoggerFunction = (message: string) => void;
 export declare type NextFunction = () => void;
@@ -94,6 +95,18 @@ export declare interface Options {
   };
   serializer?: SerializerFunction;
   version?: string;
+}
+
+export declare interface RegisterOptions extends Options {
+  prefix?: string;
+}
+
+export declare interface Route {
+  vars: {[key: string]: string};
+  stack: HandlerFunction[];
+  inherited?: HandlerFunction[];
+  route: string;
+  path: string;
 }
 
 export declare class Request {
@@ -203,6 +216,8 @@ export declare class API {
   use (...errorHandlingMiddleware: ErrorHandlingMiddleware[]);
 
   finally(callback: FinallyFunction): void;
+  
+  register(fn: RoutingFunction, opts?: RegisterOptions): void;
 
   run(event: APIGatewayEvent, context: Context, cb: (err: Error, result: any) => void): void;
   run(event: APIGatewayEvent, context: Context): Promise<any>;
